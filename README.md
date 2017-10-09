@@ -64,6 +64,12 @@ Add additional notes about how to deploy this on a live system -->
 ## Built With
 
 * [openFrameworks](http://openframeworks.cc/) - openFrameworks
+
+Helpful packages from Atom :
+
+* [Platform IO IDE](http://platformio.org/) - platformio-ide
+* [Platform IO Terminal](http://platformio.org/) - to avoid going back and forth between Atom and the console
+* [Atom Spotify 2](https://github.com/albertorestifo/atom-spotify2) - because ;)
 <!-- * [Maven](https://maven.apache.org/) - Dependency Management
 * [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds -->
 
