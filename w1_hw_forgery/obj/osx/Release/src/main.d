@@ -552,7 +552,9 @@ obj/osx/Release/src/main.o: \
   /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/libs/openFrameworks/video/ofAVFoundationVideoPlayer.h \
   /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/libs/openFrameworks/3d/ofCamera.h \
   /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/libs/openFrameworks/3d/ofEasyCam.h \
-  /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/apps/myApps/w1_hw_forgery/src/ofApp.h
+  /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/apps/myApps/w1_hw_forgery/src/ofApp.h \
+  /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/apps/myApps/w1_hw_forgery/src/Stroke.h \
+  /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/addons/ofxPathFitter/src/ofxPathFitter.h
 
 /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/libs/openFrameworks/ofMain.h:
 
@@ -1659,3 +1661,7 @@ obj/osx/Release/src/main.o: \
 /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/libs/openFrameworks/3d/ofEasyCam.h:
 
 /Users/Goldsmiths/Documents/of_v0.9.8_osx_release/apps/myApps/w1_hw_forgery/src/ofApp.h:
+
+/Users/Goldsmiths/Documents/of_v0.9.8_osx_release/apps/myApps/w1_hw_forgery/src/Stroke.h:
+
+/Users/Goldsmiths/Documents/of_v0.9.8_osx_release/addons/ofxPathFitter/src/ofxPathFitter.h:

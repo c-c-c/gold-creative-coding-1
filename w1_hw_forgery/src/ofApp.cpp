@@ -6,13 +6,33 @@
 //
 //--------------------------------------------------------------
 
+
 void ofApp::setup(){
 
-  ofBackground(255);
+  ofSetBackgroundAuto(false);
+
+	ofBackground(255);
   ofSetCircleResolution(200);
+
+	ofSetFrameRate(60); //default 60
+
+	canvas = ofRectangle(0, 0, 500, 500);
+
+	lastMousePos = ofVec2f(0,0);
+	isLeftMouseButtonPressed = false;
+	isSavingSVG = false;
+	isSavingRaster = false;
+	usrtask = DRAWING;
+
+	iSelectedStroke = -1;
+	iSelectedVertex = -1;
+
+	set_smoothness = 5;
 
   width = ofGetWidth();
   height = ofGetHeight();
+
+
 
 }
 
@@ -24,37 +44,67 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-  // grid system
-  for (int x = 0 ; x < width ; x+=10) {
-    ofSetColor(220);
-    ofDrawLine(x, 0, x, height);
+  if (flushCanvas || isLeftMouseButtonPressed) {  // If the left mouse button is pressed...
+  		flushCanvas = false;
+      ofBackground(255);
+ofSetColor(0);  // saved strokes
+  		for (int i = 0; i<strokes.size(); i++) {
+  			strokes[i].draw();
+  		}
 
-    for (int y = 0; y < height ; y+=10 ) {
-      ofSetColor(220);
-      ofDrawLine(0, y, width, y);
-    }
-  }
+  		// active stroke
+  		currentStroke.drawActive(set_smoothness);
+
+  		if (isSavingSVG) {
+  			isSavingSVG = false;
+  			ofEndSaveScreenAsSVG();
+  		}
+  		else if (isSavingRaster) {
+  			isSavingRaster = false;
+  			ofImage savedImg;
+  			glReadBuffer(GL_FRONT);
+  			savedImg.grabScreen(canvas.x, canvas.y, canvas.width, canvas.height);
+  			savedImg.save(save_name);
+  			savedImg.clear();
+  		}
+
+  // ---------- everything drawn after this will not be saved -------------
+  		if (usrtask == EDITING && iSelectedStroke != -1) {
+  			strokes[iSelectedStroke].drawEditable(iSelectedVertex);
+  		}
+  	}
+
+    // my code below
+
 
   // centering and translating the coordinate system
   ofPushMatrix();
   ofTranslate(width/2, height/2);
 
+  //--------------------------------------------------------------
+  // CIRCLES
+  //--------------------------------------------------------------
+
     // firstcircle
     ofNoFill();
     ofSetColor(0);
+    ofSetLineWidth(1.0);
     ofDrawCircle(0, 0, 200);
 
     // second circle
     ofNoFill();
     ofSetColor(0);
+    ofSetLineWidth(1.0);
     ofDrawCircle(0, 0, 250);
-
-    // top left line
 
     // radiuses
     int rSmall;
     int rMedium;
     int rBig;
+
+//--------------------------------------------------------------
+// DIAGONALS
+//--------------------------------------------------------------
 
     // points
     int p1x;
@@ -97,6 +147,8 @@ void ofApp::draw(){
 
     ofDrawLine(point3, point4);
 
+// RIGHT
+
     // top right line
 
     int p5x;
@@ -104,144 +156,258 @@ void ofApp::draw(){
     int p6x;
     int p6y;
 
-    p5x = rMedium * cos((PI/4) - (PI/2));
-    p5y = rMedium * sin((PI/4) - (PI/2));
+    p5x = rMedium * cos((PI/2) - (PI/5));
+    p5y = rMedium * sin((PI/2) - (PI/5));
 
-    ofPoint point5(p5x, p5y);
+    ofPoint point5(p5x, -p5y);
 
-    p6x = rSmall * cos((PI/4) - (PI/2));
-    p6y = rSmall * sin((PI/4) - (PI/2));
+    p6x = rSmall * cos((PI/2) - (PI/5));
+    p6y = rSmall * sin((PI/2) - (PI/5));
 
-    ofPoint point6(p6x, p6y);
+    ofPoint point6(p6x, -p6y);
 
     ofDrawLine(point5, point6);
 
-    // bottom right line WTFWTFWTF
+    // top right line 2nd: TEST
+
+    int p7x;
+    int p7y;
+    int p8x;
+    int p8y;
+
+    p7x = rMedium * cos((PI/2) - ((PI/5) + (PI/5)));
+    p7y = rMedium * sin((PI/2) - ((PI/5) + (PI/5)));
+
+    ofPoint point7(p7x, p7y);
+
+    p8x = rSmall * cos((PI/2) - ((PI/5) + (PI/5)));
+    p8y = rSmall * sin((PI/2) - ((PI/5) + (PI/5)));
+
+    ofPoint point8(p8x, p8y);
+
+    ofDrawLine(point7, point8);
+
+    // bottom right line 2nd
+
+    int p9x;
+    int p9y;
+    int p10x;
+    int p10y;
+
+    p9x = rMedium * cos((PI/2) - ((PI/5) + (PI/5)));
+    p9y = rMedium * sin((PI/2) - ((PI/5) + (PI/5)));
+
+    ofPoint point9(p9x, -p9y);
+
+    p10x = rSmall * cos((PI/2) - ((PI/5) + (PI/5)));
+    p10y = rSmall * sin((PI/2) - ((PI/5) + (PI/5)));
+
+    ofPoint point10(p10x, -p10y);
+
+    ofDrawLine(point9, point10);
+
+
+    // bottom right line
 
     int p11x;
     int p11y;
     int p12x;
     int p12y;
 
-    p11x = rMedium * cos((PI/4) - (PI/2));
-    p11y = rMedium * sin((PI/4) - (PI/2));
+    p11x = rMedium * cos((PI/2) - (PI/5));
+    p11y = rMedium * sin(-(PI/2) - (PI/5));
 
-    ofPoint point5(p5x, p5y);
+    ofPoint point11(p11x, -p11y);
 
-    p12x = rSmall * cos((PI/4) - (PI/2));
-    p12y = rSmall * sin((PI/4) - (PI/2));
+    p12x = rSmall * cos((PI/2) - (PI/5));
+    p12y = rSmall * sin(-(PI/2) - (PI/5));
 
-    ofPoint point6(p6x, p6y);
+    ofPoint point12(p12x, -p12y);
 
-    ofDrawLine(point5, point6);
+    ofDrawLine(point11, point12);
 
 
   ofPopMatrix();
 
   // top and bottom line lines
+  ofSetLineWidth(1.0);
   ofDrawLine(400, 100, 400, 200);
+  ofSetLineWidth(1.0);
   ofDrawLine(400, 600, 400, 700);
 
-  // half-circle on the right
+  //--------------------------------------------------------------
+  // ARCS
+  //--------------------------------------------------------------
+
+  // RIGHT
   ofPolyline polyline1;
+    ofSetLineWidth(1.0);
     ofPoint arcRight(400,400);
     polyline1.arc(arcRight,225,225,-90, 90, 200);
     polyline1.draw();
 
   // half-circle on the left
   ofPolyline polyline2;
+    ofSetLineWidth(1.0);
     ofPoint arcLeft(400,400);
     polyline2.arc(arcLeft,300,300, 90, 270, 200);
     polyline2.draw();
 
-  // curved lines
-  ofPolyline curvedPolyline;
 
-    // test
-    curvedPolyline.curveTo(350, 100);  // These curves are Catmull-Rom splines
-    curvedPolyline.curveTo(350, 100);  // Necessary Duplicate for Control Point
-    curvedPolyline.curveTo(400, 150);
-    curvedPolyline.curveTo(450, 100);
-    curvedPolyline.curveTo(500, 150);
-    curvedPolyline.curveTo(550, 100);
-    curvedPolyline.curveTo(550, 100);
+    //--------------------------------------------------------------
+    // CURVE LINES
+    //--------------------------------------------------------------
 
-  curvedPolyline.curveTo(550, 100);
-  curvedPolyline.curveTo(width/2, 200);
+  ofPolyline curvedPolyline, curvedPolyline2;
 
-  ofSetLineWidth(2.0);  // Line widths apply to polylines
-  ofSetColor(255,100,0);
-  curvedPolyline.draw();  // Nice and easy, right?
+  ofPoint v0(400, 175);
+  ofPoint v1(463, 210);
+  ofPoint v2(533, 218);
+  ofPoint v3(600, 250);
+  ofPoint v4(615, 330);
+  ofPoint v5(600, 400);
+  ofPoint v6(615, 470);
+  ofPoint v7(600, 550);
+  ofPoint v8(533, 583);
+  ofPoint v9(463, 590);
+  ofPoint v10(400, 625);
 
-  // grids
+    curvedPolyline.curveTo(v0);
+    curvedPolyline.curveTo(v0);
+    curvedPolyline.curveTo(v1);
+    curvedPolyline.curveTo(v2);
+    curvedPolyline.curveTo(v3);
+    curvedPolyline.curveTo(v5);
+    curvedPolyline.curveTo(v6);
+    curvedPolyline.curveTo(v7);
+    curvedPolyline.curveTo(v8);
+    curvedPolyline.curveTo(v9);
+    curvedPolyline.curveTo(v10);
+    curvedPolyline.curveTo(v10);
+
+  ofSetLineWidth(3.0);
+  ofSetColor(0);
+  curvedPolyline.getResampledBySpacing(1);
+  curvedPolyline.getSmoothed(3);
+  curvedPolyline.draw();
+
+  // LEFT
+  ofPoint p0(400, 150);
+  ofPoint p1(300, 225);
+  ofPoint p2(185, 275);
+  ofPoint p3(100, 400);
+  ofPoint p4(185, 525);
+  ofPoint p5(300, 570);
+  ofPoint p6(400, 650);
+
+    curvedPolyline2.curveTo(p0);
+    curvedPolyline2.curveTo(p0);
+    curvedPolyline2.curveTo(p1);
+    curvedPolyline2.curveTo(p2);
+    curvedPolyline2.curveTo(p3);
+    curvedPolyline2.curveTo(p4);
+    curvedPolyline2.curveTo(p5);
+    curvedPolyline2.curveTo(p6);
+    curvedPolyline2.curveTo(p6);
+
+  ofSetLineWidth(3.0);
+  ofSetColor(0);
+  curvedPolyline2.draw();
 
 
-  // ofSetColor(0, 255, 255);
-  // ofSetLineWidth(0.5);
-  // ofDrawLine(width/2, 0, width/2, height); // vertical
-  // ofDrawLine(0, height/2, width, height/2); // horizontal
 
-  // test
-  // ofSetColor(255, 0, 0);
-  // ofDrawLine(width/2, 200, width/2, 600);
-
+  // cout << "mouse x :" << ofGetMouseX() << endl;
+  // cout << "mouse y :" << ofGetMouseY() << endl;
 
 
 }
-
-
-
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+	if (key == 'x') {
+		isSavingRaster = true;
+		save_name = "savedScreenshot.png";
+	}
+	else if (key == 's') {
+		save_name = "savedScreenshot_" + ofGetTimestampString() + ".svg";
+		ofBeginSaveScreenAsSVG(save_name, false, false, canvas);
+		isSavingSVG = true;
+	}
+	else if (key == 'd') {
+		iSelectedStroke = -1;
+		iSelectedVertex = -1;
+		usrtask = DRAWING;
+	}
+	else if (key == 'e') {
+		usrtask = EDITING;
+	}
+	flushCanvas = true;
 }
 
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
+	if (usrtask == EDITING && iSelectedStroke != -1) {
 
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-
+	ofVec2f mousePos(x, y);
+	if (button == OF_MOUSE_BUTTON_LEFT) {
+		if (usrtask == DRAWING) {
+			currentStroke.addVertex(mousePos);
+		}
+		else if (usrtask == EDITING && iSelectedStroke != -1) {
+			if (iSelectedVertex != -1) {
+				if (selectedHandle == POINT) {
+					strokes[iSelectedStroke].modifyVertex(iSelectedVertex, x, y);
+				}
+				else {
+					strokes[iSelectedStroke].modifyHandle(iSelectedVertex, selectedHandle, x, y);
+				}
+			}
+			else if (iSelectedStroke != -1 && mousePos.distance(lastMousePos)>1) {
+				strokes[iSelectedStroke].translateLine(lastMousePos, x, y);
+			}
+		}
+	}
+	lastMousePos = mousePos;
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+	ofPoint mousePos(x, y);
+	if (button == OF_MOUSE_BUTTON_LEFT) {
+		isLeftMouseButtonPressed = true;
 
+		if (usrtask == DRAWING) {
+			currentStroke.startStroke();
+		}
+		else if (usrtask == EDITING) {
+			if (iSelectedStroke != -1) {
+				iSelectedVertex = strokes[iSelectedStroke].getSelectedVertex(iSelectedVertex, selectedHandle, x, y);
+			}
+			if (iSelectedVertex == -1) {
+				iSelectedStroke = Stroke::getSelectedStroke(&strokes, mousePos);
+			}
+		}
+	}
+	lastMousePos = mousePos;
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
+	if (button == OF_MOUSE_BUTTON_LEFT) {
+		isLeftMouseButtonPressed = false;
 
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
+		if (usrtask == DRAWING) {
+			if (currentStroke.line.size() > 1) {
+				currentStroke.finishStroke(set_smoothness);
+				strokes.push_back(currentStroke);
+			}
+			currentStroke.clear();  // Erase the vertices, allows us to start a new brush stroke
+		}
+	}
+	//flushCanvas = true;
 }
