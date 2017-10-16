@@ -1,8 +1,20 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-// Special thanks to Sam Luford for the trig help for the lines :)
+// Celine Chappert
+// 16 October 2017
+// Assignment week 1 : Forgery
 //
+// All code my own EXCEPT when explicitely noted below
+//
+// Special credits to :
+// ofxPathFitter addon for the drawing tool which I used to
+// build the thicker curves on each side of the circle.
+//
+// Sam Luford for helping me figure out how to calculate
+// the coordinates of a point on an arc based.
+//
+// Comments below
 //
 //--------------------------------------------------------------
 
@@ -10,29 +22,30 @@
 void ofApp::setup(){
 
   ofSetBackgroundAuto(false);
-
 	ofBackground(255);
   ofSetCircleResolution(200);
+	ofSetFrameRate(60);
 
-	ofSetFrameRate(60); //default 60
 
+  //---------------------------
+  // Below:
+  // start code snippet from
+  // ofxPathFitter addon
+  //
 	canvas = ofRectangle(0, 0, 500, 500);
-
 	lastMousePos = ofVec2f(0,0);
 	isLeftMouseButtonPressed = false;
 	isSavingSVG = false;
 	isSavingRaster = false;
 	usrtask = DRAWING;
-
 	iSelectedStroke = -1;
 	iSelectedVertex = -1;
-
 	set_smoothness = 5;
+  // end  ofxPathFitter snippet
+  //---------------------------
 
   width = ofGetWidth();
   height = ofGetHeight();
-
-
 
 }
 
@@ -44,10 +57,14 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-  if (flushCanvas || isLeftMouseButtonPressed) {  // If the left mouse button is pressed...
+  //---------------------------
+  // Below:
+  // start ofxPathFitter snippet
+  //
+  if (flushCanvas || isLeftMouseButtonPressed) {
   		flushCanvas = false;
       ofBackground(255);
-ofSetColor(0);  // saved strokes
+      ofSetColor(0);
   		for (int i = 0; i<strokes.size(); i++) {
   			strokes[i].draw();
   		}
@@ -68,30 +85,29 @@ ofSetColor(0);  // saved strokes
   			savedImg.clear();
   		}
 
-  // ---------- everything drawn after this will not be saved -------------
   		if (usrtask == EDITING && iSelectedStroke != -1) {
   			strokes[iSelectedStroke].drawEditable(iSelectedVertex);
   		}
   	}
-
-    // my code below
+    // end  ofxPathFitter snippet
+    //---------------------------
 
 
   // centering and translating the coordinate system
   ofPushMatrix();
   ofTranslate(width/2, height/2);
 
-  //--------------------------------------------------------------
+  //---------------------------
   // CIRCLES
-  //--------------------------------------------------------------
+  //---------------------------
 
-    // firstcircle
+    // Smaller circle: rSmall
     ofNoFill();
     ofSetColor(0);
     ofSetLineWidth(1.0);
     ofDrawCircle(0, 0, 200);
 
-    // second circle
+    // Medium circle: rMedium
     ofNoFill();
     ofSetColor(0);
     ofSetLineWidth(1.0);
@@ -102,9 +118,9 @@ ofSetColor(0);  // saved strokes
     int rMedium;
     int rBig;
 
-//--------------------------------------------------------------
+//---------------------------
 // DIAGONALS
-//--------------------------------------------------------------
+//---------------------------
 
     // points
     int p1x;
@@ -116,6 +132,8 @@ ofSetColor(0);  // saved strokes
     rMedium = 250;
     rBig = 300;
 
+    // The formula below was given to me
+    // by Sam Luford.
     p1x = rBig * cos((PI/2) - (PI/3));
     p1y = rBig * sin((PI/2) - (PI/3));
 
@@ -226,20 +244,21 @@ ofSetColor(0);  // saved strokes
 
     ofDrawLine(point11, point12);
 
-
   ofPopMatrix();
 
-  // top and bottom line lines
+  // Now we are out of the centered coordinate system
+
+  // building top and bottom line lines
   ofSetLineWidth(1.0);
   ofDrawLine(400, 100, 400, 200);
   ofSetLineWidth(1.0);
   ofDrawLine(400, 600, 400, 700);
 
-  //--------------------------------------------------------------
+  //---------------------------
   // ARCS
-  //--------------------------------------------------------------
+  //---------------------------
 
-  // RIGHT
+  // half-circle on the right
   ofPolyline polyline1;
     ofSetLineWidth(1.0);
     ofPoint arcRight(400,400);
@@ -254,65 +273,80 @@ ofSetColor(0);  // saved strokes
     polyline2.draw();
 
 
-    //--------------------------------------------------------------
+    //---------------------------
     // CURVE LINES
-    //--------------------------------------------------------------
+    //
+    // This is my original method for drawing the curves.
+    // It works, which is why I want to keep the code for future reference.
+    // I am using the curveTo() method on the ofPolyline object.
+    // The method consists of calculating points on the arc and
+    // add them as vertexes on a curved segment.
+    // However, this is repetitive and there had to be another way.
+    // Hence the ofxPathFitter library.
+    //---------------------------
 
-  ofPolyline curvedPolyline, curvedPolyline2;
-
-  ofPoint v0(400, 175);
-  ofPoint v1(463, 210);
-  ofPoint v2(533, 218);
-  ofPoint v3(600, 250);
-  ofPoint v4(615, 330);
-  ofPoint v5(600, 400);
-  ofPoint v6(615, 470);
-  ofPoint v7(600, 550);
-  ofPoint v8(533, 583);
-  ofPoint v9(463, 590);
-  ofPoint v10(400, 625);
-
-    curvedPolyline.curveTo(v0);
-    curvedPolyline.curveTo(v0);
-    curvedPolyline.curveTo(v1);
-    curvedPolyline.curveTo(v2);
-    curvedPolyline.curveTo(v3);
-    curvedPolyline.curveTo(v5);
-    curvedPolyline.curveTo(v6);
-    curvedPolyline.curveTo(v7);
-    curvedPolyline.curveTo(v8);
-    curvedPolyline.curveTo(v9);
-    curvedPolyline.curveTo(v10);
-    curvedPolyline.curveTo(v10);
-
+  // ofPolyline curvedPolyline, curvedPolyline2;
+  //
+  // // ofPoint v0(400, 175);
+  // int v1x;
+  // int v1y;
+  // ofPoint v1(v1x, -v1y);
+  // v1x = rSmall * cos((PI/2) - (PI/10));
+  // v1y = rSmall * sin((PI/2) - (PI/10));
+  //
+  // ofPoint v0(400, 200);
+  // // ofPoint v1(463, 210);
+  // ofPoint v2(533, 218);
+  // ofPoint v3(600, 250);
+  // ofPoint v4(615, 330);
+  // ofPoint v5(600, 400);
+  // ofPoint v6(615, 470);
+  // ofPoint v7(600, 550);
+  // ofPoint v8(533, 583);
+  // ofPoint v9(463, 590);
+  // ofPoint v10(400, 625);
+  //
+  //   curvedPolyline.curveTo(v0);
+  //   curvedPolyline.curveTo(v0);
+  //   curvedPolyline.curveTo(v1);
+  //   curvedPolyline.curveTo(v2);
+  //   curvedPolyline.curveTo(v3);
+  //   curvedPolyline.curveTo(v5);
+  //   curvedPolyline.curveTo(v6);
+  //   curvedPolyline.curveTo(v7);
+  //   curvedPolyline.curveTo(v8);
+  //   curvedPolyline.curveTo(v9);
+  //   curvedPolyline.curveTo(v10);
+  //   curvedPolyline.curveTo(v10);
+  //
   ofSetLineWidth(3.0);
-  ofSetColor(0);
-  curvedPolyline.getResampledBySpacing(1);
-  curvedPolyline.getSmoothed(3);
-  curvedPolyline.draw();
+  // ofSetColor(0);
+  // curvedPolyline.getResampledBySpacing(1);
+  // curvedPolyline.getSmoothed(3);
+  // curvedPolyline.draw();
 
   // LEFT
-  ofPoint p0(400, 150);
-  ofPoint p1(300, 225);
-  ofPoint p2(185, 275);
-  ofPoint p3(100, 400);
-  ofPoint p4(185, 525);
-  ofPoint p5(300, 570);
-  ofPoint p6(400, 650);
-
-    curvedPolyline2.curveTo(p0);
-    curvedPolyline2.curveTo(p0);
-    curvedPolyline2.curveTo(p1);
-    curvedPolyline2.curveTo(p2);
-    curvedPolyline2.curveTo(p3);
-    curvedPolyline2.curveTo(p4);
-    curvedPolyline2.curveTo(p5);
-    curvedPolyline2.curveTo(p6);
-    curvedPolyline2.curveTo(p6);
-
-  ofSetLineWidth(3.0);
-  ofSetColor(0);
-  curvedPolyline2.draw();
+  // ofPoint p0(400, 150);
+  // ofPoint p1(300, 225);
+  // ofPoint p2(185, 275);
+  // ofPoint p3(100, 400);
+  // ofPoint p4(185, 525);
+  // ofPoint p5(300, 570);
+  // ofPoint p6(400, 650);
+  //
+  //   curvedPolyline2.curveTo(p0);
+  //   curvedPolyline2.curveTo(p0);
+  //   curvedPolyline2.curveTo(p1);
+  //   curvedPolyline2.curveTo(p2);
+  //   curvedPolyline2.curveTo(p3);
+  //   curvedPolyline2.curveTo(p4);
+  //   curvedPolyline2.curveTo(p5);
+  //   curvedPolyline2.curveTo(p6);
+  //   curvedPolyline2.curveTo(p6);
+  //
+  // ofSetLineWidth(3.0);
+  // ofSetColor(0);
+  // curvedPolyline2.draw();
 
 
 
@@ -323,7 +357,13 @@ ofSetColor(0);  // saved strokes
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	if (key == 'x') {
+  if (key == 'c') {
+    ofImage saved;
+    saved.grabScreen(0, 0, width, height);
+    saved.save("save"+ofGetTimestampString()+".png");
+  }
+
+  if (key == 'x') {
 		isSavingRaster = true;
 		save_name = "savedScreenshot.png";
 	}
@@ -332,6 +372,11 @@ void ofApp::keyPressed(int key){
 		ofBeginSaveScreenAsSVG(save_name, false, false, canvas);
 		isSavingSVG = true;
 	}
+  //---------------------------
+  // Below:
+  // start code snippet from
+  // ofxPathFitter addon
+  //
 	else if (key == 'd') {
 		iSelectedStroke = -1;
 		iSelectedVertex = -1;
@@ -409,5 +454,7 @@ void ofApp::mouseReleased(int x, int y, int button){
 			currentStroke.clear();  // Erase the vertices, allows us to start a new brush stroke
 		}
 	}
-	//flushCanvas = true;
+
 }
+// end  ofxPathFitter snippet
+//---------------------------

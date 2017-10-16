@@ -49,6 +49,12 @@ cd myProject/
 make RunRelease
 ```
 
+## Week 1 : Forgery 
+
+![alt text](https://scontent-lht6-1.cdninstagram.com/t51.2885-15/e35/22500393_1870296936332509_3388507876879237120_n.jpg)
+
+* [ofxPathFitter](http://openframeworks.cc/) - addon for drawing the curves
+
 <!-- ### And coding style tests
 
 Explain what these tests test and why
