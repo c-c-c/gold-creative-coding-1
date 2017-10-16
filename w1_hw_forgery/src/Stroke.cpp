@@ -1,3 +1,22 @@
+//--------------------------------------------------------------
+// Celine Chappert
+// 16 October 2017
+// Assignment week 1 : Forgery
+//
+// THIS IS NOT MY CODE.
+//
+// I REPEAT : THIS IS NOT MY CODE !
+//
+// ALL CREDITS FOR THE CODE ON THIS FILE TO
+// THE CREATOR(S) OF THE ofxPathFitter addon
+//
+// NOTE: I am using the library in the ofApp.cpp and ofApp.h
+// files of this folder. When taking snippets of code from
+// the lib credit is given in the form of comments around
+// the code snippet.
+//
+//--------------------------------------------------------------
+
 #include "Stroke.h"
 
 Stroke::Stroke() {
