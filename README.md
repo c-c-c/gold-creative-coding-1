@@ -49,11 +49,15 @@ cd myProject/
 make RunRelease
 ```
 
-## Week 1 : Forgery 
+## Week 1 : Forgery
 
 ![alt text](https://scontent-lht6-1.cdninstagram.com/t51.2885-15/e35/22500393_1870296936332509_3388507876879237120_n.jpg)
 
 * [ofxPathFitter](http://openframeworks.cc/) - addon for drawing the curves
+
+## Week 2 : Animated Brushes
+
+![alt text](w2_hw_drawingBrush/bin/data/celinechappert_02.png)
 
 <!-- ### And coding style tests
 
