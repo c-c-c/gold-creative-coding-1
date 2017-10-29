@@ -9,6 +9,8 @@
 //
 // 's' for png export
 //
+// screenshots in bin/data
+//
 //
 // Comments below
 //
