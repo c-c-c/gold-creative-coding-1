@@ -1,10 +1,24 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
+// Celine Chappert
+// 30 October 2017
+// Assignment week 3 : Mandala
+//
+// All code my own
+//
+// 's' for png export
+//
+//
+// Comments below
+//
+//--------------------------------------------------------------
+
+//--------------------------------------------------------------
 void ofApp::setup(){
 
     ofHideCursor();
-    ofBackground(0);
+    ofBackground(255);
 
     angleStep = 0.1;
     rotAngle = 0;
@@ -15,7 +29,7 @@ void ofApp::setup(){
 void ofApp::update(){
 
   if (rotAngle > 15 || rotAngle < -15) {
-    angleStep == angleStep * -1;
+    angleStep = angleStep * -1;
   }
 
   rotAngle = rotAngle + angleStep;
@@ -25,31 +39,39 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-  // shape 1
-
   int resolution = ofMap(ofGetMouseX(), 0, ofGetWidth(), 3, 20, true);
   int radius1 = 200;
   int radius2 = ofMap(ofGetMouseY(), 0, ofGetHeight(), 50, 400, true);
 
   float noOfStars = 20;
 
-  // create 20 stars
   for (float i = 0; i < noOfStars; i++) {
 
     ofPushMatrix();
 
     int color = ofMap(i, 0, noOfStars, 0, 255, true);
-    ofSetColor(color, noOfStars);
+    // ofSetColor(color, noOfStars);
 
-    ofFill();
+    // NOTE: go RGB
+    // ofSetColor(color*ofRandom(i), color*ofRandom(i), color*ofRandom(i), noOfStars);
+
+    // NOTE: set the stroke color to white when bg is black
+    // ofSetColor(255);
+
+    // NOTE: disable the fill function when bg is black for nice look
+    // ofNoFill();
 
     ofTranslate(ofGetWidth()/2,ofGetHeight()/2);
 
     ofRotate(i*rotAngle);
 
-    // ofScale(1/i*20, 1/i*20);
+    float scaleP = 1 / noOfStars;
+    float scale = 1 - (scaleP * i);
 
-    ofScale((noOfStars+i)/noOfStars, (noOfStars+i)/noOfStars);
+    ofScale(scale, scale);
+    // NOTE: scale variations give us more looks
+    // ofScale(1/i*20, 1/i*20); // go fullscreen
+    // ofScale((noOfStars+i)/noOfStars, (noOfStars+i)/noOfStars);
 
     star(0, 0, radius1, radius2, resolution);
 
@@ -66,6 +88,11 @@ void ofApp::star(float x, float y, float radius1, float radius2, int npoints) {
 
   float angle = 360.0 / npoints;
   float halfAngle = angle/2.0;
+
+  // added
+  int starColor = ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 255, true);
+  ofSetColor(starColor*ofRandom(starColor), starColor*ofRandom(starColor), starColor*ofRandom(starColor), starColor);
+
 
   ofSetPolyMode(OF_POLY_WINDING_NONZERO);
   ofBeginShape();
@@ -88,37 +115,15 @@ void ofApp::star(float x, float y, float radius1, float radius2, int npoints) {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-  switch (key){
 
       // export
-      case 's':
+      if (key == 's') {
           ofImage screenshot;
           screenshot.grabScreen(0, 0, ofGetWidth(), ofGetHeight());
           screenshot.save("saved_"+ofGetTimestampString()+".png");
           cout << "screenshot saved" << endl;
-          break;
-      // case 'z':
-      //     speedOfRotation -= 0.05f;
-      //     break;
-      // case 's':
-      //     rotateAmount.x += 0.05f;
-      //     break;
-      // case 'x':
-      //      rotateAmount.x -= 0.05f;
-      //     break;
-      // case 'd':
-      //     rotateAmount.y += 0.05f;
-      //     break;
-      // case 'c':
-      //      rotateAmount.y -= 0.05f;
-      //     break;
-      // case 'f':
-      //     rotateAmount.z += 0.05f;
-      //     break;
-      // case 'v':
-      //      rotateAmount.z -= 0.05f;
-      //     break;
-  }
+        }
+
 }
 
 //--------------------------------------------------------------
