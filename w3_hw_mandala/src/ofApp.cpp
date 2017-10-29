@@ -4,7 +4,7 @@
 void ofApp::setup(){
 
     ofHideCursor();
-    ofBackground(255);
+    ofBackground(0);
 
     angleStep = 0.1;
     rotAngle = 0;
@@ -15,7 +15,7 @@ void ofApp::setup(){
 void ofApp::update(){
 
   if (rotAngle > 15 || rotAngle < -15) {
-    angleStep = angleStep * -1;
+    angleStep == angleStep * -1;
   }
 
   rotAngle = rotAngle + angleStep;
@@ -39,46 +39,23 @@ void ofApp::draw(){
     ofPushMatrix();
 
     int color = ofMap(i, 0, noOfStars, 0, 255, true);
-    ofSetColor(color);
+    ofSetColor(color, noOfStars);
+
     ofFill();
 
     ofTranslate(ofGetWidth()/2,ofGetHeight()/2);
-    // ofRotate(i*5);
-    // ofRotate(i*5*rotAngle);
+
     ofRotate(i*rotAngle);
-    ofScale(1/i*20, 1/i*20);
+
+    // ofScale(1/i*20, 1/i*20);
+
+    ofScale((noOfStars+i)/noOfStars, (noOfStars+i)/noOfStars);
 
     star(0, 0, radius1, radius2, resolution);
 
     ofPopMatrix();
   }
 
-  // shape 2
-
-  // resolution = ofMap(ofGetMouseX(), 0, ofGetWidth(), 3, 20, true);
-  // radius1 = 50;
-  // radius2 = ofMap(ofGetMouseY(), 0, ofGetHeight(), 10, 100, true);
-  //
-  // noOfStars = 40;
-  //
-  // for (float j = 0; j < noOfStars; j++) {
-  //
-  //   ofPushMatrix();
-  //
-  //   int color2 = ofMap(j, 0, noOfStars, 0, 255, true);
-  //   ofSetColor(color2);
-  //   ofFill();
-  //
-  //   ofTranslate(400,100);
-  //   // ofRotate(i*5);
-  //   // ofRotate(i*5*rotAngle);
-  //   ofRotate(j*rotAngle);
-  //   ofScale(1/j, 1/j);
-  //
-  //   star(0, 0, radius1, radius2, resolution);
-  //
-  //   ofPopMatrix();
-  // }
 
 
 }
