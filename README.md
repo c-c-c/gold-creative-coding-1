@@ -61,7 +61,7 @@ make RunRelease
 
 ## Week 3 : Mandala
 
-![alt text](w3_hw_mandala/bin/data/artboard.pdf)
+![alt text](w3_hw_mandala/bin/data/artboard.jpg)
 
 <!-- ### And coding style tests
 
