@@ -20,7 +20,7 @@
 void ofApp::setup(){
 
     ofHideCursor();
-    ofBackground(255);
+    ofBackground(0);
 
     angleStep = 0.1;
     rotAngle = 0;
@@ -52,7 +52,7 @@ void ofApp::draw(){
     ofPushMatrix();
 
     int color = ofMap(i, 0, noOfStars, 0, 255, true);
-    // ofSetColor(color, noOfStars);
+    ofSetColor(color, noOfStars);
 
     // NOTE: go RGB
     // ofSetColor(color*ofRandom(i), color*ofRandom(i), color*ofRandom(i), noOfStars);
@@ -92,8 +92,8 @@ void ofApp::star(float x, float y, float radius1, float radius2, int npoints) {
   float halfAngle = angle/2.0;
 
   // added
-  int starColor = ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 255, true);
-  ofSetColor(starColor*ofRandom(starColor), starColor*ofRandom(starColor), starColor*ofRandom(starColor), starColor);
+  // int starColor = ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 255, true);
+  // ofSetColor(starColor*ofRandom(starColor), starColor*ofRandom(starColor), starColor*ofRandom(starColor), starColor);
 
 
   ofSetPolyMode(OF_POLY_WINDING_NONZERO);

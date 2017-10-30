@@ -57,7 +57,11 @@ make RunRelease
 
 ## Week 2 : Animated Brushes
 
-![alt text](w2_hw_drawingBrush/bin/data/celinechappert_02.png)
+![alt text](w2_hw_drawingBrush/bin/data/w2_brush.jpg)
+
+## Week 3 : Mandala
+
+![alt text](w3_hw_mandala/bin/data/artboard.pdf)
 
 <!-- ### And coding style tests
 
