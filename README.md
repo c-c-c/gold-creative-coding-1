@@ -1,7 +1,7 @@
 # Workshop in Creative Coding I
 
 Directory of folders containing code for the course Workshop in Creative Coding at Goldsmiths UOL.
-Contains pair-programming lab assignments and individual weekly homework, for which there are screenshots below. 
+Contains pair-programming lab assignments and individual weekly homework, for which there are screenshots below.
 
 <!-- ## Getting Started
 
@@ -31,22 +31,13 @@ until finished
 
 End with an example of getting some data out of the system or using it for a little demo -->
 
-### Running openFrameworks on Atom using Terminal (first time per project)
+### Running openFrameworks on Atom using Terminal
 
-The assets need to be compiled for later reference.
+I use the in-built Terminal from PlatformIO's toolbar.
 
 ```
 cd myProject/
 make
-make RunRelease
-```
-
-### Afterwards:
-
-Build the file using only the make RunRelease command in the project directory.
-
-```
-cd myProject/
 make RunRelease
 ```
 
