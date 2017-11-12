@@ -23,6 +23,10 @@ class ofApp : public ofBaseApp{
 
 		static const int numX=25;
 		static const int numY=25;
+    
+		// arrays are simpler than vectors
+		// because they are not elastic in size
+    
 		float noiseSeeds[numX][numY];
 
 		float spacingX;
@@ -35,4 +39,5 @@ class ofApp : public ofBaseApp{
 
 		float stepSize;
 
+        float noise;
 };

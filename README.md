@@ -1,6 +1,7 @@
 # Workshop in Creative Coding I
 
 Directory of folders containing code for the course Workshop in Creative Coding at Goldsmiths UOL.
+Contains pair-programming lab assignments and individual weekly homework, for which there are screenshots below. 
 
 <!-- ## Getting Started
 
@@ -62,6 +63,10 @@ make RunRelease
 ## Week 3 : Mandala
 
 ![alt text](w3_hw_mandala/bin/data/artboard.jpg)
+
+## Week 4 : Harlem Shake
+
+![alt text](w4_hw_harlemShake/bin/data/artboard.jpg)
 
 <!-- ### And coding style tests
 
