@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "FFB57EBA38B57495694C73BEA1410D59C86FA88E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "FFB57EBA38B57495694C73BEA1410D59C86FA88E" : 9223372036854775807,
+    "439B5E29F5231AAB318563038546D46FAB1579E2" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "EC76C3EE-F229-41E5-A2EB-118973D47D56",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "FFB57EBA38B57495694C73BEA1410D59C86FA88E" : "myApps\/",
+    "439B5E29F5231AAB318563038546D46FAB1579E2" : "..\/addons\/ofxPathFitter"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "w1_hw_forgery",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "w1_hw_forgery\/w1_hw_forgery.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/acmyu\/ofxPathFitter.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "439B5E29F5231AAB318563038546D46FAB1579E2"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/c-c-c\/gold-creative-coding.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FFB57EBA38B57495694C73BEA1410D59C86FA88E"
+    }
+  ]
+}

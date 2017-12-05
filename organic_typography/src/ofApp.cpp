@@ -60,6 +60,8 @@ void ofApp::draw(){
 
       ofDrawCircle(newPoint, pointSize);
 
+        
+    
       noiseSeeds[i] = noiseSeeds[i] + 0.01;
     }
 
